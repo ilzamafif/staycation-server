@@ -16,11 +16,16 @@
             </tr>
           </thead>
           <tbody>
+            <% for(let i = 0; i < category.length; i++){ %>
             <tr>
-                <td>1</td>
-                <td>System Architect</td>
-                <td></td>
-              </tr>
+              <td><%= i + 1 %></td>
+              <td><%= category[i].name %></td>
+              <td>
+                <a href="" type="button" class="btn btn-warning btn-circle btn-sm"><i class="fas fa-edit"></i></a>
+                <a href="" type="button" class="btn btn-danger btn-circle btn-sm"><i class="fas fa-trash"></i></a>
+              </td>
+            </tr>
+            <% } %>
           </tbody>
         </table>
       </div>
