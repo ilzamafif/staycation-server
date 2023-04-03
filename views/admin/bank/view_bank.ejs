@@ -11,9 +11,10 @@
       <div id="content">
 
        <%- include('../../partials/navbar.ejs') %>
-
-        <!-- Begin Page Content -->
-        <div class="container-fluid">
+       
+       <!-- Begin Page Content -->
+       <div class="container-fluid">
+          <%- include('../../partials/message.ejs') %>
 
             <!-- Page Heading -->
             <h1 class="h3 mb-4 text-gray-800">Bank</h1>
@@ -58,4 +59,5 @@
     </div>
   </div>
 
+  <%- include('add_modal.ejs') %>
   <%- include('../../partials/js.ejs') %>
