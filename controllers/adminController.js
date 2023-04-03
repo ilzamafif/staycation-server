@@ -11,23 +11,31 @@ module.exports = {
   },
 
   addCategory: async (req, res) => {
-    const { name } = req.body;
-    Category.create({ name });
-    res.redirect("/admin/category");
+    try {
+      const { name } = req.body;
+      Category.create({ name });
+      res.redirect("/admin/category");
+    } catch (error) {
+      res.redirect("/admin/category");
+    }
   },
 
   updateCategory: async (req, res) => {
-    const { id, name } = req.body;
-    const category = await Category.findOne({ _id: id });
-    category.name = name;
-    await category.save();
-    res.redirect("/admin/category");
+    try {
+      const { id, name } = req.body;
+      const category = await Category.findOne({ _id: id });
+      category.name = name;
+      await category.save();
+      res.redirect("/admin/category");
+    } catch (error) {
+      res.redirect("/admin/category");
+    }
   },
 
   destroyCategory: async (req, res) => {
-    const { id } = req.params;
-    await Category.findByIdAndRemove({ _id: id });
-    res.redirect("/admin/category");
+      const { id } = req.params;
+      await Category.findByIdAndRemove({ _id: id });
+      res.redirect("/admin/category");
   },
 
   viewBank: (req, res) => {
