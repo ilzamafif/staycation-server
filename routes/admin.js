@@ -3,6 +3,7 @@ const adminController = require("../controllers/adminController");
 
 router.get("/dashboard", adminController.viewDashboard);
 router.get("/category", adminController.viewCategory);
+router.put("/category", adminController.updateCategory);
 router.post("/category", adminController.addCategory);
 router.get("/bank", adminController.viewBank);
 router.get("/item", adminController.viewItem);
