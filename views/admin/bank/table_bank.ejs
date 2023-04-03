@@ -30,8 +30,10 @@
             </td>
             <td>
               <form action="" method="POST">
-                <a href="javascript:void();" type="button" class="btn btn-warning btn-circle btn-sm button-update"><i class=" fas fa-edit"></i></a>
-                <button type="submit" class="btn btn-danger btn-circle btn-sm"><i class="fas fa-trash"></i></button>
+                <a href="javascript:void();" type="button" class="btn btn-warning btn-circle btn-sm button-update"
+                  data-id="<%= bank[i].id %>" data-name="<%= bank[i].name %>" data-namebank="<%= bank[i].nameBank %>"
+                  data-nomorrekening="<%= bank[i].nomorRekening %>" "><i
+                    class=" fas fa-edit"></i></a>
               </form>
             </td>
           </tr>
