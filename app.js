@@ -6,7 +6,7 @@ var logger = require('morgan');
 const methodOverride = require("method-override");
 // mongoose
 const mongoose = require('mongoose');
-mongoose.connect("mongodb://127.0.0.1:27017/staycation", {
+mongoose.connect("mongodb://localhost:27017/staycation", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
