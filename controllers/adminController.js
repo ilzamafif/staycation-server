@@ -128,10 +128,25 @@ module.exports = {
           (bank.nomorRekening = nomorRekening),
           (bank.imageUrl = `images/${req.file.filename}`),
           await bank.save();
-        req.flash("alertMessage", "Success Add Bank");
+        req.flash("alertMessage", "Success Update Bank");
         req.flash("alertStatus", "success");
         res.redirect("/admin/bank");
       }
+    } catch (error) {
+      req.flash("alertMessage", `${error.message}`);
+      req.flash("alertStatus", "danger");
+      res.redirect("/admin/bank");
+    }
+  },
+
+  destroyBank: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const bank = await Bank.findByIdAndRemove({ _id: id });
+      await fs.unlink(path.join(`public/${bank.imageUrl}`));
+      req.flash("alertMessage", "Success Delete Bank");
+      req.flash("alertStatus", "success");
+      res.redirect("/admin/bank");
     } catch (error) {
       req.flash("alertMessage", `${error.message}`);
       req.flash("alertStatus", "danger");
