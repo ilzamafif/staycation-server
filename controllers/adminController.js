@@ -240,6 +240,73 @@ module.exports = {
     }
   },
 
+  showEditItem: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const item = await Item.findOne({ _id: id })
+        .populate({ path: "imageId", select: "id imageUrl" })
+        .populate({ path: "categoryId", select: "id name" });
+      const category = await Category.find();
+      const alertMessage = req.flash("alertMessage");
+      const alertStatus = req.flash("alertStatus");
+      const alert = { message: alertMessage, status: alertStatus };
+      res.render("admin/item/view_item", {
+        title: "Staycation | Edit Item",
+        alert,
+        item,
+        category,
+        action: "edit",
+        user: req.session.user,
+      });
+    } catch (error) {
+      req.flash("alertMessage", `${error.message}`);
+      req.flash("alertStatus", "danger");
+      res.redirect("/admin/item");
+    }
+  },
+
+  editItem: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { categoryId, title, price, city, about } = req.body;
+      const item = await Item.findOne({ _id: id })
+        .populate({ path: "imageId", select: "id imageUrl" })
+        .populate({ path: "categoryId", select: "id name" });
+
+      if (req.files.length > 0) {
+        for (let i = 0; i < item.imageId.length; i++) {
+          const imageUpdate = await Image.findOne({ _id: item.imageId[i]._id });
+          await fs.unlink(path.join(`public/${imageUpdate.imageUrl}`));
+          imageUpdate.imageUrl = `images/${req.files[i].filename}`;
+          await imageUpdate.save();
+        }
+        item.title = title;
+        item.price = price;
+        item.city = city;
+        item.description = about;
+        item.categoryId = categoryId;
+        await item.save();
+        req.flash("alertMessage", "Success update Item");
+        req.flash("alertStatus", "success");
+        res.redirect("/admin/item");
+      } else {
+        item.title = title;
+        item.price = price;
+        item.city = city;
+        item.description = about;
+        item.categoryId = categoryId;
+        await item.save();
+        req.flash("alertMessage", "Success update Item");
+        req.flash("alertStatus", "success");
+        res.redirect("/admin/item");
+      }
+    } catch (error) {
+      req.flash("alertMessage", `${error.message}`);
+      req.flash("alertStatus", "danger");
+      res.redirect("/admin/item");
+    }
+  },
+
   viewBooking: (req, res) => {
     res.render("admin/booking/view_booking", {
       title: "Staycation | Booking",
