@@ -18,6 +18,7 @@ router.delete("/bank/:id", adminController.destroyBank);
 // Item Route
 router.get("/item", adminController.viewItem);
 router.post("/item", uploadMultiple, adminController.addItem);
+router.get("/item/show-image/:id", adminController.showImageItem);
 router.get("/booking", adminController.viewBooking);
 
 module.exports = router;

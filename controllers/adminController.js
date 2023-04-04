@@ -5,6 +5,7 @@ const Image = require("../models/Image");
 
 const fs = require("fs-extra");
 const path = require("path");
+
 module.exports = {
   viewDashboard: (req, res) => {
     res.render("admin/dashboard/view_dashboard", {
@@ -171,7 +172,30 @@ module.exports = {
         category,
         alert,
         item,
-        // action: "view",
+        action: "view",
+      });
+    } catch (error) {
+      req.flash("alertMessage", `${error.message}`);
+      req.flash("alertStatus", "danger");
+      res.redirect("/admin/item");
+    }
+  },
+
+  showImageItem: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const item = await Item.findOne({ _id: id }).populate({
+        path: "imageId",
+        select: "id imageUrl",
+      });
+      const alertMessage = req.flash("alertMessage");
+      const alertStatus = req.flash("alertStatus");
+      const alert = { message: alertMessage, status: alertStatus };
+      res.render("admin/item/view_item", {
+        title: "Staycation | Show Image Item",
+        alert,
+        item,
+        action: "show image",
       });
     } catch (error) {
       req.flash("alertMessage", `${error.message}`);
@@ -185,6 +209,9 @@ module.exports = {
       const { categoryId, title, price, city, about } = req.body;
       if (req.files.length > 0) {
         const category = await Category.findOne({ _id: categoryId });
+        if (!category) {
+          throw new Error("Category not found");
+        }
         const newItem = {
           categoryId,
           title,
@@ -195,14 +222,13 @@ module.exports = {
         const item = await Item.create(newItem);
         category.itemId.push({ _id: item._id });
         await category.save();
-        console.log(item);
         for (let i = 0; i < req.files.length; i++) {
           const imageSave = await Image.create({
             imageUrl: `images/${req.files[i].filename}`,
           });
           item.imageId.push({ _id: imageSave._id });
-          await item.save();
         }
+        await item.save();
         req.flash("alertMessage", "Success Add Item");
         req.flash("alertStatus", "success");
         res.redirect("/admin/item");
