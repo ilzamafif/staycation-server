@@ -28,6 +28,8 @@ router.get('/item/show-detail-item/:itemId', adminController.viewDetailItem);
 router.post("/item/add/feature", uploadSingle, adminController.addFeature);
 router.put("/item/update/feature", uploadSingle, adminController.editFeature);
 
+router.post("/item/add/activity", uploadSingle, adminController.addActivity);
+
 router.get("/booking", adminController.viewBooking);
 
 module.exports = router;
