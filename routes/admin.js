@@ -25,6 +25,7 @@ router.delete("/item/:id/delete", adminController.destroyItem);
 
 // Item Detail Route
 router.get('/item/show-detail-item/:itemId', adminController.viewDetailItem);
+router.post("/item/add/feature", uploadSingle, adminController.addFeature);
 
 router.get("/booking", adminController.viewBooking);
 
