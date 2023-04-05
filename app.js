@@ -8,7 +8,7 @@ const session = require("express-session");
 const flash = require("connect-flash");
 // mongoose
 const mongoose = require("mongoose");
-mongoose.connect("mongodb://localhost:27017/staycation", {
+mongoose.connect("mongodb://localhost:27017/db_staycation", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
