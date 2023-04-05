@@ -45,6 +45,11 @@ module.exports = {
         res.redirect("/admin/signin");
       }
 
+      req.session.user = {
+        id: user.id,
+        username: user.username,
+      };
+
       res.redirect("/admin/dashboard");
     } catch (error) {
       res.redirect("/admin/signin");
