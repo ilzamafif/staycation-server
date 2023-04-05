@@ -5,6 +5,7 @@ const Image = require("../models/Image");
 const Feature = require("../models/Feature");
 const Activity = require("../models/Activity");
 const Users = require("../models/Users");
+const Member = require("../models/Member");
 
 const fs = require("fs-extra");
 const path = require("path");
@@ -61,13 +62,21 @@ module.exports = {
     res.redirect("/admin/signin");
   },
 
-  viewDashboard: (req, res) => {
+  viewDashboard: async (req, res) => {
+    const member = await Member.find();
+    const item = await Item.find();
+    const booking = await Booking.find();
     try {
       res.render("admin/dashboard/view_dashboard", {
         title: "Staycation | Dashboard",
         user: req.session.user,
+        item,
+        member,
+        booking,
       });
-    } catch (error) {}
+    } catch (error) {
+      res.redirect("/admin/dashboard");
+    }
   },
 
   viewCategory: async (req, res) => {
