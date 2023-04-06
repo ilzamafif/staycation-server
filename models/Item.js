@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const { ObjectId } = mongoose.Schema;
 
 const itemSchema = new mongoose.Schema({
@@ -18,8 +18,9 @@ const itemSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  IsPopular: {
+  isPopular: {
     type: Boolean,
+    default: false,
   },
   description: {
     type: String,
@@ -33,22 +34,28 @@ const itemSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
-  imageId: {
-    type: ObjectId,
-    ref: "Image",
-  },
-  featureId: {
-    type: ObjectId,
-    ref: "Feature",
-  },
-  activityId: {
-    type: ObjectId,
-    ref: "Activity",
-  },
   categoryId: {
     type: ObjectId,
     ref: "Category",
   },
+  imageId: [
+    {
+      type: ObjectId,
+      ref: "Image",
+    },
+  ],
+  featureId: [
+    {
+      type: ObjectId,
+      ref: "Feature",
+    },
+  ],
+  activityId: [
+    {
+      type: ObjectId,
+      ref: "Activity",
+    },
+  ],
 });
 
-module.exports = mongoose.model('Item', itemSchema);
+module.exports = mongoose.model("Item", itemSchema);
